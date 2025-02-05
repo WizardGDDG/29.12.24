@@ -1,0 +1,110 @@
+#include <iostream>
+
+using namespace std;
+
+
+void splitArray(int* staticArr, int size, int*& positiveArr, int& positiveSize,
+                 int*& negativeArr, int& negativeSize, int*& zeroArr, int& zeroSize)
+    {
+
+    if (staticArr == nullptr || size <= 0) {
+        cout << "Ошибка: Некорректный входной массив или размер." << endl;
+        positiveArr = negativeArr = zeroArr = nullptr;
+        positiveSize = negativeSize = zeroSize = 0;
+        return;
+    }
+
+    
+    positiveSize = 0;
+    negativeSize = 0;
+    zeroSize = 0;
+
+    for (int i = 0; i < size; ++i) 
+    {
+        if (staticArr[i] > 0) 
+        {
+            positiveSize++;
+        } else if (staticArr[i] < 0) 
+        {
+            negativeSize++;
+        } else {
+            zeroSize++;
+        }
+    }
+
+    
+    positiveArr = (positiveSize > 0) ? new int[positiveSize] : nullptr;
+    negativeArr = (negativeSize > 0) ? new int[negativeSize] : nullptr;
+    zeroArr = (zeroSize > 0) ? new int[zeroSize] : nullptr;
+
+    /
+    int positiveIndex = 0, negativeIndex = 0, zeroIndex = 0;
+    for (int i = 0; i < size; ++i) 
+    {
+        if (staticArr[i] > 0) 
+        {
+            positiveArr[positiveIndex++] = staticArr[i];
+        } else if (staticArr[i] < 0)
+        {
+            negativeArr[negativeIndex++] = staticArr[i];
+        } else {
+            zeroArr[zeroIndex++] = staticArr[i];
+        }
+    }
+}
+
+int main() {
+    const int SIZE = 10;
+    int staticArray[SIZE] = {1, -2, 0, 3, -4, 5, 0, -6, 7, 0};
+
+    int* positiveArray = nullptr;
+    int positiveArraySize = 0;
+    int* negativeArray = nullptr;
+    int negativeArraySize = 0;
+    int* zeroArray = nullptr;
+    int zeroArraySize = 0;
+
+    splitArray(staticArray, SIZE, positiveArray, positiveArraySize,
+               negativeArray, negativeArraySize, zeroArray, zeroArraySize);
+
+    
+    cout << "Положительные элементы: ";
+    if (positiveArray != nullptr) {
+        for (int i = 0; i < positiveArraySize; ++i) 
+        {
+            cout << positiveArray[i] << " ";
+        }
+        cout << endl;
+        delete[] positiveArray; 
+    } else {
+        cout << "Отсутствуют" << endl;
+    }
+
+    cout << "Отрицательные элементы: ";
+    if (negativeArray != nullptr) 
+    {
+        for (int i = 0; i < negativeArraySize; ++i) 
+        {
+            cout << negativeArray[i] << " ";
+        }
+        cout << endl;
+        delete[] negativeArray; 
+    } else 
+    {
+        cout << "Отсутствуют" << endl;
+    }
+
+    cout << "Нулевые элементы: ";
+    if (zeroArray != nullptr) {
+        for (int i = 0; i < zeroArraySize; ++i)
+        {
+            cout << zeroArray[i] << " ";
+        }
+        cout << endl;
+        delete[] zeroArray; 
+    } else {
+        cout << "Отсутствуют" << endl;
+    }
+
+    return 0;
+}
