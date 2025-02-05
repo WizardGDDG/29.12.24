@@ -1,0 +1,175 @@
+#include <iostream>
+
+using namespace std;
+
+// Функция распределения динамической памяти (возвращает указатель на выделенный массив)
+int* allocateArray(int size) {
+    if (size <= 0) {
+        cout << "Ошибка: Размер массива должен быть положительным." << endl;
+        return nullptr; // Возвращаем nullptr в случае ошибки
+    }
+    int* arr = new int[size];
+    return arr;
+}
+
+// Функция инициализации динамического массива
+void initializeArray(int* arr, int size, int initialValue = 0) {
+    if (arr == nullptr) {
+        cout << "Ошибка: Массив не выделен." << endl;
+        return;
+    }
+    for (int i = 0; i < size; ++i) {
+        arr[i] = initialValue; // Инициализируем все элементы initialValue
+    }
+}
+
+// Функция печати динамического массива
+void printArray(int* arr, int size) {
+    if (arr == nullptr) {
+        cout << "Ошибка: Массив не выделен." << endl;
+        return;
+    }
+    cout << "[";
+    for (int i = 0; i < size; ++i) {
+        cout << arr[i];
+        if (i < size - 1) {
+            cout << ", ";
+        }
+    }
+    cout << "]" << endl;
+}
+
+// Функция удаления динамического массива
+void deleteArray(int* arr)
+{
+    if (arr != nullptr) 
+    {
+        delete[] arr;
+    }
+}
+
+
+int* appendElement(int* arr, int& size, int element) 
+{
+    if (arr == nullptr) 
+    {
+        cout << "Ошибка: Массив не выделен." << endl;
+        return nullptr;
+    }
+
+    int* newArr = new int[size + 1]; 
+
+    // Копируем все элементы из старого массива в новый
+    for (int i = 0; i < size; ++i) 
+    {
+        newArr[i] = arr[i];
+    }
+
+    newArr[size] = element; 
+    size++; 
+    delete[] arr; 
+    return newArr; 
+}
+
+
+int* insertElement(int* arr, int& size, int index, int element) 
+{
+    if (arr == nullptr) 
+    {
+        cout << "Ошибка: Массив не выделен." << endl;
+        return nullptr;
+    }
+
+    if (index < 0 || index > size) 
+    {
+        cout << "Ошибка: Неверный индекс для вставки." << endl;
+        return arr; 
+    }
+
+    int* newArr = new int[size + 1]; 
+
+
+    for (int i = 0; i < index; ++i) 
+    {
+        newArr[i] = arr[i];
+    }
+
+    newArr[index] = element; 
+
+   
+    for (int i = index; i < size; ++i) 
+    {
+        newArr[i + 1] = arr[i];
+    }
+
+    size++; 
+    delete[] arr; // Освобождаем память, занятую старым массивом
+    return newArr; // Возвращаем указатель на новый массив
+}
+
+// Функция удаления элемента по указанному индексу
+int* removeElement(int* arr, int& size, int index) 
+{
+    if (arr == nullptr) 
+    {
+        cout << "Ошибка: Массив не выделен." << endl;
+        return nullptr;
+    }
+
+    if (index < 0 || index >= size) 
+    {
+        cout << "Ошибка: Неверный индекс для удаления." << endl;
+        return arr; 
+    }
+
+    int* newArr = new int[size - 1]; /
+
+    // Копируем элементы до индекса удаления
+    for (int i = 0; i < index; ++i) 
+    {
+        newArr[i] = arr[i];
+    }
+
+    
+    for (int i = index + 1; i < size; ++i) 
+    {
+        newArr[i - 1] = arr[i];
+    }
+
+    size--; 
+    delete[] arr; 
+    return newArr; 
+}
+
+int main() 
+{
+    int size = 5;
+    int* myArray = allocateArray(size);
+
+    if (myArray == nullptr)
+    {
+        return 1; 
+    }
+
+    initializeArray(myArray, size, 1);
+    cout << "Исходный массив: ";
+    printArray(myArray, size);
+
+    myArray = appendElement(myArray, size, 6);
+    cout << "Массив после добавления элемента: ";
+    printArray(myArray, size);
+
+    myArray = insertElement(myArray, size, 2, 7);
+    cout << "Массив после вставки элемента: ";
+    printArray(myArray, size);
+
+    myArray = removeElement(myArray, size, 3);
+    cout << "Массив после удаления элемента: ";
+    printArray(myArray, size);
+
+    deleteArray(myArray); 
+    myArray = nullptr;     
+    cout << "Массив удален." << endl;
+
+    return 0;
+}
