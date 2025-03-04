@@ -1,107 +1,40 @@
 #include <iostream>
 
-using namespace std;
-
-
-bool isPrime(int n) {
-    if (n <= 1) return false; 
-    for (int i = 2; i * i <= n; ++i)
-    {
-        if (n % i == 0) return false;
-    }
-    return true;
-}
-
-
-int* removePrimes(int* arr, int& size) 
+void sd(int arr[], int size,int *temp,int *temp2,int *temp3)
 {
-    if (arr == nullptr)
-    {
-        cout << "Ошибка: Массив не выделен." << endl;
-        return nullptr;
-    }
-
-    
-    int nonPrimesCount = 0;
-    for (int i = 0; i < size; ++i) 
-    {
-        if (!isPrime(arr[i])) 
-        {
-            nonPrimesCount++;
-        }
-    }
-
-    /
-    if (nonPrimesCount == 0) 
-    {
-        delete[] arr; 
-        size = 0;
-        return nullptr;
-    }
-
-    
-    int* newArr = new int[nonPrimesCount];
-
-    
-    int newIndex = 0;
-    for (int i = 0; i < size; ++i) 
-    {
-        if (!isPrime(arr[i])) 
-        {
-            newArr[newIndex] = arr[i];
-            newIndex++;
-        }
-    }
-
-   
-    delete[] arr;
-
-    
-    size = nonPrimesCount;
-
-    
-    return newArr;
+	int colotri = 0;
+	int colpolo = 0;
+	int colnul = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (arr[i] < 0)
+		{
+			colotri++;
+		}
+		if (arr[i] > 0)
+		{
+			colpolo++;
+		}
+		if (arr[i] == 0)
+		{
+			colnul++;
+		}
+	}
+	*temp = colotri;
+	*temp2 = colpolo;
+	*temp3 = colnul;
 }
-
-int main() 
+int main()
 {
-    int size = 10;
-    int* myArray = new int[size];
-
-    
-    for (int i = 0; i < size; ++i) 
-    {
-        myArray[i] = rand() % 50;
-    }
-
-    cout << "Исходный массив: ";
-    for (int i = 0; i < size; ++i)
-    {
-        cout << myArray[i] << " ";
-    }
-    cout << endl;
-
-    
-    myArray = removePrimes(myArray, size);
-
-    if (myArray == nullptr) 
-    {
-        cout << "В массиве не осталось элементов." << endl;
-    } else 
-    {
-        cout << "Массив после удаления простых чисел: ";
-        for (int i = 0; i < size; ++i) 
-        {
-            cout << myArray[i] << " ";
-        }
-        cout << endl;
-    }
-
-    
-    if (myArray != nullptr) 
-    {
-        delete[] myArray;
-    }
-
-    return 0;
+	setlocale(LC_ALL, "rus");
+	int	arr[5] = {1,0,-3,8,2 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	int temp = 0;
+	int temp2 = 0;
+	int temp3 = 0;
+	sd(arr,size,&temp,&temp2,&temp3);
+	std::cout << "Количество отрицательных - " << temp << std::endl;
+	std::cout << "Количество положительных - " << temp2 << std::endl;
+	std::cout << "Количество нулей - " << temp3 << std::endl;
 }
+
