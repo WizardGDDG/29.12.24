@@ -4,12 +4,12 @@ int* appendToArray(int* originalArray, int originalSize, int* newElements, int n
     int newSize = originalSize + newElementsSize;
     int* newArray = new int[newSize];
 
-    // Копируем элементы из старого массива
+    
     for (int i = 0; i < originalSize; ++i) {
         newArray[i] = originalArray[i];
     }
 
-    // Копируем новые элементы
+    
     for (int i = 0; i < newElementsSize; ++i) {
         newArray[originalSize + i] = newElements[i];
     }
